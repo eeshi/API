@@ -1,4 +1,1 @@
-API
-===
-
-Eeshi RESTful API
+# Eeshi RESTful API

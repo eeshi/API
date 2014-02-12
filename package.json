@@ -1,0 +1,27 @@
+{
+  "name": "API",
+  "version": "0.0.1",
+  "description": "Eeshi RESTful API",
+  "main": "server.js",
+  "scripts": {
+    "test": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/eeshi/API.git"
+  },
+  "keywords": [
+    "Eeshi",
+    "REST",
+    "API"
+  ],
+  "author": "Eeshi",
+  "license": "aGPL",
+  "bugs": {
+    "url": "https://github.com/eeshi/API/issues"
+  },
+  "homepage": "https://github.com/eeshi/API",
+  "dependencies": {
+    "restify": "~2.6.1"
+  }
+}
