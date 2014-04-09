@@ -22,7 +22,6 @@ server.post('/joblinks', api.saveJobLinks);
 server.post('/jobposts', api.saveJobPost);
 
 server.del('/joblinks/:link', api.delJobLink);
-server.del('/jobposts/:job', api.delJobPost);
 
 server.listen(PORT, function() {
   console.log('Eeshi API ready to rock on %s ', server.url);
