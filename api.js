@@ -9,7 +9,7 @@ Api.getJobLinks = function(req, res, next) {
 
     if(err) {
       console.log(err);
-      res.send(404);
+      res.send({ code: 404 });
     }
 
     res.send(data);
@@ -26,7 +26,7 @@ Api.getJobPosts = function(req, res, next) {
 
     if(err) {
       console.log(err);
-      res.send(404);
+      res.send({ code: 404 });
     }
 
     res.send(data);
@@ -41,13 +41,11 @@ Api.getJobPost = function(req, res, next) {
   var jobPosts = Model.jobPosts;
   var job = req.params['job'];
 
-  var query = { _id: job };
-
-  jobPosts.findOne(query, function(err, data) {
+  jobPosts.findById(job, function(err, data) {
     
     if(err) {
       console.log(err);
-      res.send(404);
+      res.send({ code: 404 });
     }
 
     res.send(data);
@@ -68,7 +66,7 @@ Api.getJobPostByUrl = function(req, res, next) {
 
     if(err) {
       console.log(err);
-      res.send(404);
+      res.send({ code: 404 });
     }
 
     res.send(data);
@@ -87,10 +85,10 @@ Api.saveJobLinks = function(req, res, next) {
 
     if(err){
       console.log(err);
-      res.send(500);
+      res.send({ code: 500 });
     }
 
-    res.send(200);
+    res.send({ code: 200 });
     next();
 
   });
@@ -99,25 +97,27 @@ Api.saveJobLinks = function(req, res, next) {
 
 Api.saveJobPost = function(req, res, next) {
 
-  var jobPost = new Model.jobPosts();
+  var jobPost = Model.jobPosts;
   var job = req.body;
+  var post = new jobPost(job);
+  var query;
+  var options;
+  var data;
 
-  jobPost.sourceId = job.sourceId;
-  jobPost.jobVacant = job.jobVacant;
-  jobPost.desc = job.desc;
-  jobPost.pageTitle = job.pageTitle;
-  jobPost.companyName = job.companyName;
-  jobPost.companyUrl = job.companyUrl;
-  jobPost.url = job.url;
+  query = { url: job.url };
+  data = post.toObject();
+  options = { upsert: true };
 
-  jobPost.save(function(err) {
+  // delete data._id;
+  console.log(data)
+  jobPost.update(query, data, options, function(err) {
 
     if(err) {
       console.log(err);
-      res.send(500);
+      res.send({ code: 500 });
     }
 
-    res.send(200);
+    res.send({ code: 200 });
     next();
 
   });
@@ -128,36 +128,18 @@ Api.delJobLink = function(req, res, next) {
 
   var jobLink = Model.jobLinks;
   var job = req.body['link'];
+  var query = { _id: job };
 
-  // jobLink.remove(url, function(err, data) {
+  jobLink.remove(query, function(err) {
 
-  //   if(err) {
-  //     console.log(err);
-  //     res.send(404);
-  //   }
+    if(err) {
+      console.log(err);
+      res.send({ code: 404 });
+    }
 
-  //   res.send(data);
-  //   next();
+    res.send({ code: 200 });
+    next();
 
-  // });
-
-};
-
-Api.delJobPost = function(req, res, next) {
-
-  var jobLink = Model.jobPost;
-  var job = req.body['job'];
-
-  // jobLink.remove(url, function(err, data) {
-
-  //   if(err) {
-  //     console.log(err);
-  //     res.send(404);
-  //   }
-
-  //   res.send(data);
-  //   next();
-
-  // });
+  });
 
 };
