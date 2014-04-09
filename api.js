@@ -81,8 +81,8 @@ Api.getJobPostByUrl = function(req, res, next) {
 Api.saveJobLinks = function(req, res, next) {
 
   var jobLinks = Model.jobLinks;
-  var links = req.body['links'];
-
+  var links = req.body;
+  console.log(links)
   jobLinks.create(links, function(err) {
 
     if(err){
