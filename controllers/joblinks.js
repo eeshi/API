@@ -43,19 +43,30 @@ link.bulkSave = function(req, res, next) {
 
 link.del = function(req, res, next) {
 
-  var job = req.body['link'];
-  var query = { _id: job };
+  var link = req.params['link'];
+  var query = { _id: link };
 
-  JobLink.remove(query, function(err) {
+  JobLinks.findOne(query, function(err, jobLink) {
 
     if(err) {
       console.log(err);
       res.send({ code: 404 });
     }
+    
+    jobLink.remove(onRemove);
+
+  });
+
+  function onRemove(err) {
+
+    if(err) {
+      console.log(err);
+      res.send(500);
+    }
 
     res.send({ code: 200 });
     next();
-
-  });
+    
+  }
 
 };
