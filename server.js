@@ -1,7 +1,10 @@
 var restify = require('restify');
 var mongoose = require('mongoose');
 
-var server = restify.createServer();
+var server = restify.createServer({
+  name: 'Eeshi',
+  version: '0.0.1'
+});
 var PORT = process.env['PORT'] || 3000;
 var DATABASE_URL = process.env['DATABASE_URL'];
 var api;
@@ -9,6 +12,7 @@ var api;
 mongoose.connect(DATABASE_URL);
 api = require('./api');
 
+server.use(restify.acceptParser(server.acceptable));
 server.use(restify.queryParser());
 server.use(restify.bodyParser());
 server.use(restify.jsonp());
