@@ -1,15 +1,18 @@
 var mongoose = require('mongoose');
 
-module.exports = Model = function() {
+var model = Model.prototype;
 
-  var Schema = mongoose.Schema;
+exports = module.exports = Model();
+
+function Model() {
+  
+  if(!(this instanceof Model)) return new Model;
+
   var jobLinks = require('./models/joblinks');
   var jobPosts = require('./models/jobposts');
 
-  Model.jobLinks = mongoose.model('jobLinks', jobLinks, 'jobLinks');
-  Model.jobPosts = mongoose.model('jobPosts', jobPosts, 'jobPosts');
-
-  return Model;
+  this.JobLinks = mongoose.model('jobLinks', jobLinks, 'jobLinks');
+  this.JobPosts = mongoose.model('jobPosts', jobPosts, 'jobPosts');
 
 };
 
